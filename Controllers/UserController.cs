@@ -56,7 +56,6 @@ namespace CoreTravel
         }
 
         [HttpGet("getUser")]
-        [Authorize] // Requires authentication
         public IActionResult GetUser()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

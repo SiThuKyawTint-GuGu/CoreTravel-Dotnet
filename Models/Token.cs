@@ -11,15 +11,15 @@ namespace CoreTravel.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [Required]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public Token()
         {
