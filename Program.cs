@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
@@ -70,6 +72,13 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors(builder => builder
+    .WithOrigins("http://127.0.0.1:5173")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+);
 
 app.MapControllers();
 

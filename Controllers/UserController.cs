@@ -1,15 +1,15 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using CoreTravel.Data;
 using CoreTravel.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MySqlConnector;
+using System.Security.Cryptography;
 
-namespace CoreTravel
+namespace CoreTravel.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -27,47 +27,110 @@ namespace CoreTravel
         [HttpPost("register")]
         public IActionResult Register(User request)
         {
-            string password = request.Password;
-            string hashedPassword = HashPassword(password);
-
-            User user = new User
+            try
             {
-                Name = request.Name,
-                Email = request.Email,
-                Password = hashedPassword,
-            };
+                string password = request.Password;
+                string hashedPassword = HashPassword(password);
 
-            _dbContext.Users.Add(user);
-            _dbContext.SaveChanges();
+                User user = new User
+                {
+                    Name = request.Name,
+                    Email = request.Email,
+                    Password = hashedPassword,
+                };
 
-            // Generate token
-            var token = GenerateToken(user);
+                _dbContext.Users.Add(user);
+                _dbContext.SaveChanges();
 
-            // Save token to the database
-            Token tokenEntity = new Token
+                // Generate token
+                var token = GenerateToken(user);
+
+                // Save token to the database
+                Token tokenEntity = new Token
+                {
+                    UserId = user.Id,
+                    Value = token
+                };
+                _dbContext.Tokens.Add(tokenEntity);
+                _dbContext.SaveChanges();
+
+                return new JsonResult(new { user, token });
+            }
+            catch (DbUpdateException ex)
             {
-                UserId = user.Id,
-                Value = token
-            };
-            _dbContext.Tokens.Add(tokenEntity);
-            _dbContext.SaveChanges();
+                if (ex.InnerException is MySqlException mySqlEx && mySqlEx.Number == 1062)
+                {
+                    var data = new
+                    {
+                        message = "Email Already Exist"
+                    };
+                   
+                    // Duplicate entry exception
+                    return new JsonResult(data)
+                    {
+                        StatusCode = 500 // Internal Server Error
+                    };
+                }
 
-            return new JsonResult(new { user, token });
+                // Handle other DbUpdateException scenarios or rethrow the exception.
+                throw;
+            }
         }
 
-        [HttpGet("getUser")]
-        public IActionResult GetUser()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _dbContext.Users.Find(userId);
 
-            if (user == null)
+        [HttpPost("login")]
+        public IActionResult login(User request)
+        {
+            User user = _dbContext.Users.FirstOrDefault(u => u.Email == request.Email);
+            if (user != null)
             {
-                return NotFound();
+                bool isPasswordCorrect = VerifyPassword(request.Password, user.Password);
+                if (isPasswordCorrect)
+                {
+                    var token = GenerateToken(user);
+
+                    // Save token to the database
+                    Token tokenEntity = new Token
+                    {
+                        UserId = user.Id,
+                        Value = token
+                    };
+                    _dbContext.Tokens.Add(tokenEntity);
+                    _dbContext.SaveChanges();
+
+                    return new JsonResult(new { user, token });
+                }
+                else
+                {
+                    return new JsonResult("Wrong Password");
+                }
+            }
+            else
+            {
+                var data = new 
+                {
+                    message = "User not Found"
+                };
+
+                return new JsonResult(data){
+                    StatusCode = 500 // Internal Server Error
+                };
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout(Token request)
+        {
+            Token token = _dbContext.Tokens.FirstOrDefault(t => t.Value == request.Value);
+            if (token != null)
+            {
+                _dbContext.Tokens.Remove(token);
+                _dbContext.SaveChanges();
             }
 
-            return new JsonResult(user);
+            return new JsonResult("Logged out successfully");
         }
+
 
         private string HashPassword(string password)
         {
@@ -76,6 +139,17 @@ namespace CoreTravel
                 byte[] passwordByte = Encoding.UTF8.GetBytes(password);
                 byte[] hashBytes = sha256.ComputeHash(passwordByte);
                 return Convert.ToBase64String(hashBytes);
+            }
+        }
+
+        private bool VerifyPassword(string password, string hashpassword)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] passwordByte = Encoding.UTF8.GetBytes(password);
+                byte[] hasbytes = sha256.ComputeHash(passwordByte);
+                string converthash = Convert.ToBase64String(hasbytes);
+                return hashpassword == converthash;
             }
         }
 
@@ -116,4 +190,3 @@ namespace CoreTravel
         }
     }
 }
-
