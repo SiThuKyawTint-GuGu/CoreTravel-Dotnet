@@ -1,4 +1,3 @@
-
 namespace CoreTravel.Models
 {
     public class Customer
@@ -8,7 +7,7 @@ namespace CoreTravel.Models
 
         public string? Customer_Name { get; set; }
 
-        [Required(ErrorMessage ="Email is require!")]
+        [Required(ErrorMessage = "Email is require!")]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Password is require!")]
@@ -28,7 +27,8 @@ namespace CoreTravel.Models
 
         public DateTime UpdatedAt { get; set; }
 
-        public Customer(){
+        public Customer()
+        {
             Last_Login = DateTime.UtcNow;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;

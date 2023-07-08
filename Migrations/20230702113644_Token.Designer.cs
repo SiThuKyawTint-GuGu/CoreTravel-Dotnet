@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreTravel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230625063408_Level")]
-    partial class Level
+    [Migration("20230702113644_Token")]
+    partial class Token
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,6 +287,10 @@ namespace CoreTravel.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int?>("UserId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -296,6 +300,8 @@ namespace CoreTravel.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerID");
 
                     b.HasIndex("UserId");
 
@@ -518,11 +524,19 @@ namespace CoreTravel.Migrations
 
             modelBuilder.Entity("CoreTravel.Models.Token", b =>
                 {
+                    b.HasOne("CoreTravel.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CoreTravel.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("User");
                 });

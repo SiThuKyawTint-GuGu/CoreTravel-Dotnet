@@ -1,5 +1,3 @@
-
-
 namespace CoreTravel
 {
     public class CustomerHasBooking
@@ -29,6 +27,6 @@ namespace CoreTravel
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
     }
 }

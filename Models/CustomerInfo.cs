@@ -1,17 +1,22 @@
-namespace CoreTravel.Models
+
+namespace CoreTravel
 {
-    public class Level
+    public class CustomerInfo
     {
         [Key]
         public int? Id { get; set; }
 
-        [Required]
-        public string? Name { get; set; }
+        public int?Customer_Id  { get; set; }
 
+        public string?Location { get; set; }
+
+        public string? Language { get; set; }
+
+        public string? Currency { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
-        public Level()
+        public CustomerInfo()
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;

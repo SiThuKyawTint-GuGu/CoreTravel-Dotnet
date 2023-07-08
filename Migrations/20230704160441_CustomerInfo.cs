@@ -7,29 +7,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CoreTravel.Migrations
 {
     /// <inheritdoc />
-    public partial class Customer_has_Booking : Migration
+    public partial class CustomerInfo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CustomerHasBookings",
+                name: "CustomerInfos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Customer_Id = table.Column<int>(type: "int", nullable: true),
-                    Booking_Id = table.Column<int>(type: "int", nullable: true),
-                    Paymentinfo_Id = table.Column<int>(type: "int", nullable: true),
-                    Date_of_booking = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Total_amount = table.Column<int>(type: "int", nullable: true),
-                    BookingStatus_Id = table.Column<int>(type: "int", nullable: true),
+                    Location = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Language = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Currency = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerHasBookings", x => x.Id);
+                    table.PrimaryKey("PK_CustomerInfos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
@@ -38,7 +39,7 @@ namespace CoreTravel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CustomerHasBookings");
+                name: "CustomerInfos");
         }
     }
 }

@@ -11,13 +11,7 @@ namespace CoreTravel.Data
 
         public DbSet<User>? Users { get; set; }
 
-        public DbSet<Token>? Tokens { get; set; }
-
-        public DbSet<Customer> Customers { get; set; }
-
         public DbSet<Country> Countries { get; set; }
-
-        public DbSet<Level> Levels { get; set; }
 
         public DbSet<Language> Languages { get; set; }
 
@@ -35,8 +29,6 @@ namespace CoreTravel.Data
 
         public DbSet<Booking> Bookings { get; set; }
 
-        public DbSet<CustomerHasBooking> CustomerHasBookings { get; set; }
-
         public DbSet<PaymentInfo> PaymentInfos { get; set; }
 
         public DbSet<TripPurpose> TripPurposes { get; set; }
@@ -46,6 +38,16 @@ namespace CoreTravel.Data
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<PaymentType> PaymentTypes { get; set; }
+
+        public DbSet<CustomerHasBooking> CustomerHasBookings { get; set; }
+
+        public DbSet<Level> Levels { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<Token>? Tokens { get; set; }
+
+        public DbSet<CustomerInfo>? CustomerInfos { get; set; }
 
     }
 

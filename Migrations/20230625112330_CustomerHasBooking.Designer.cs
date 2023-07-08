@@ -3,6 +3,7 @@ using System;
 using CoreTravel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreTravel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230625112330_CustomerHasBooking")]
+    partial class CustomerHasBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,35 +151,6 @@ namespace CoreTravel.Migrations
                     b.ToTable("CustomerHasBookings");
                 });
 
-            modelBuilder.Entity("CoreTravel.CustomerInfo", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Currency")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("Customer_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Language")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerInfos");
-                });
-
             modelBuilder.Entity("CoreTravel.Direction", b =>
                 {
                     b.Property<int?>("Id")
@@ -240,70 +214,6 @@ namespace CoreTravel.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("CoreTravel.Models.Customer", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Country_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Customer_Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("Language_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Last_Login")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Level_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("Phone")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("CoreTravel.Models.Level", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Levels");
-                });
-
             modelBuilder.Entity("CoreTravel.Models.Token", b =>
                 {
                     b.Property<int>("Id")
@@ -312,10 +222,6 @@ namespace CoreTravel.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("int");
 
                     b.Property<int?>("UserId")
                         .IsRequired()
@@ -326,8 +232,6 @@ namespace CoreTravel.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerID");
 
                     b.HasIndex("UserId");
 
@@ -550,19 +454,11 @@ namespace CoreTravel.Migrations
 
             modelBuilder.Entity("CoreTravel.Models.Token", b =>
                 {
-                    b.HasOne("CoreTravel.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CoreTravel.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("User");
                 });
