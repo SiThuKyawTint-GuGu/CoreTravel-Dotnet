@@ -12,7 +12,6 @@ namespace CoreTravel.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.CreateTable(
                 name: "Tokens",
                 columns: table => new

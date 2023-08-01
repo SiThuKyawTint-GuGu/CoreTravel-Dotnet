@@ -21,6 +21,16 @@ namespace CoreTravel.Models
 
         public int? Level_Id { get; set; }
 
+        public int? Unicode { get; set; }
+
+        public string? Image { get; set; }
+
+        public string? Address { get; set; }
+
+        public string? Gender { get; set; }
+
+        public string? Birth { get; set; }
+
         public DateTime? Last_Login { get; set; }
 
         public DateTime CreatedAt { get; set; }

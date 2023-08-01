@@ -28,6 +28,15 @@ namespace CoreTravel.Migrations
                     Language_Id = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<int>(type: "int", nullable: true),
                     Level_Id = table.Column<int>(type: "int", nullable: true),
+                    Unicode = table.Column<int>(type: "int", nullable: true),
+                    Image = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Address = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Gender = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Birth = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Last_Login = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)

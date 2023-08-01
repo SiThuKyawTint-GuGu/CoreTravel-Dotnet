@@ -8,6 +8,9 @@ namespace CoreTravel.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+        public DbSet<Token>? Tokens { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
 
         public DbSet<User>? Users { get; set; }
 
@@ -43,11 +46,14 @@ namespace CoreTravel.Data
 
         public DbSet<Level> Levels { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+       
 
-        public DbSet<Token>? Tokens { get; set; }
 
         public DbSet<CustomerInfo>? CustomerInfos { get; set; }
+
+      
+
+      
 
     }
 

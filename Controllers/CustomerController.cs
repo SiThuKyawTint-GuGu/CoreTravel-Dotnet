@@ -32,11 +32,16 @@ namespace CoreTravel.Controllers
                 string password = request.Password;
                 string hashedPassword = HashPassword(password);
 
+                Random random = new Random();
+                int unicode = random.Next(10000000, 100000000);
+
                 Customer customer = new Customer
                 {
                     Customer_Name = request.Customer_Name,
                     Email = request.Email,
                     Password = hashedPassword,
+                    Address = request.Address,
+                    Unicode = unicode,
                 };
 
                 _dbContext.Customers.Add(customer);
@@ -73,9 +78,28 @@ namespace CoreTravel.Controllers
                     };
                 }
 
-                // Handle other DbUpdateException scenarios or rethrow the exception.
                 throw;
             }
+        }
+
+        [HttpPost("/customer/updatecustomer")]
+        public IActionResult updatecustomer(Customer request){
+            var customer = _dbContext.Customers.FirstOrDefault(item => item.Id == request.Id);
+            if(customer != null){
+                customer.Customer_Name = request.Customer_Name;
+                customer.Birth = request.Birth;
+                customer.Gender = request.Gender;
+                customer.Address = request.Address;
+
+                _dbContext.SaveChanges();
+            }
+            return new JsonResult(new { customer });
+        }
+
+        [HttpGet("/customer/details")]
+        public IActionResult show(int Id){
+            Customer customer = _dbContext.Customers.FirstOrDefault(u => u.Id == Id);
+            return new JsonResult(new { customer });
         }
 
 

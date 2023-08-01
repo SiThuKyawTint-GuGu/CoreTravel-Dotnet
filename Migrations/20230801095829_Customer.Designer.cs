@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreTravel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230702113644_Token")]
-    partial class Token
+    [Migration("20230801095829_Customer")]
+    partial class Customer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,6 +151,35 @@ namespace CoreTravel.Migrations
                     b.ToTable("CustomerHasBookings");
                 });
 
+            modelBuilder.Entity("CoreTravel.CustomerInfo", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Customer_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerInfos");
+                });
+
             modelBuilder.Entity("CoreTravel.Direction", b =>
                 {
                     b.Property<int?>("Id")
@@ -220,6 +249,12 @@ namespace CoreTravel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Birth")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("Country_Id")
                         .HasColumnType("int");
 
@@ -231,6 +266,12 @@ namespace CoreTravel.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Image")
                         .HasColumnType("longtext");
 
                     b.Property<int?>("Language_Id")
@@ -247,6 +288,9 @@ namespace CoreTravel.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int?>("Phone")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Unicode")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -276,36 +320,6 @@ namespace CoreTravel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Levels");
-                });
-
-            modelBuilder.Entity("CoreTravel.Models.Token", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("CoreTravel.Models.User", b =>
@@ -520,25 +534,6 @@ namespace CoreTravel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TripPurposes");
-                });
-
-            modelBuilder.Entity("CoreTravel.Models.Token", b =>
-                {
-                    b.HasOne("CoreTravel.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CoreTravel.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

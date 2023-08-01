@@ -246,6 +246,12 @@ namespace CoreTravel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Birth")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("Country_Id")
                         .HasColumnType("int");
 
@@ -257,6 +263,12 @@ namespace CoreTravel.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Image")
                         .HasColumnType("longtext");
 
                     b.Property<int?>("Language_Id")
@@ -273,6 +285,9 @@ namespace CoreTravel.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int?>("Phone")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Unicode")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")

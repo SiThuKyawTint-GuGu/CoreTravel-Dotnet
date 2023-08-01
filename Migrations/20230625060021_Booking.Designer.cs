@@ -242,31 +242,6 @@ namespace CoreTravel.Migrations
 
                     b.ToTable("Levels");
                 });
-
-            modelBuilder.Entity("CoreTravel.Models.Token", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("UserId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tokens");
-                });
-
             modelBuilder.Entity("CoreTravel.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -359,17 +334,6 @@ namespace CoreTravel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TravelServices");
-                });
-
-            modelBuilder.Entity("CoreTravel.Models.Token", b =>
-                {
-                    b.HasOne("CoreTravel.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
