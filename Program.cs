@@ -3,11 +3,24 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using CoreTravel.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Read configuration from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json");
+
+// Set the IP address and port number for hosting
+var ipAddress = "192.168.100.10"; // Replace with your desired IP address
+var port = 5000; // Replace with your desired port number
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Listen(IPAddress.Parse(ipAddress), port);
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -70,6 +83,13 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors(builder => builder
+    .WithOrigins("http://127.0.0.1:5173")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+);
 
 app.MapControllers();
 

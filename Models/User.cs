@@ -7,7 +7,6 @@ namespace CoreTravel.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Name Field is required")]
         public string? Name { get; set; }
 
         [Required(ErrorMessage ="Name Field is required")]

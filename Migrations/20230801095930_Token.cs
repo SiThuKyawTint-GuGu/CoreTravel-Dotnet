@@ -19,6 +19,7 @@ namespace CoreTravel.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -27,6 +28,12 @@ namespace CoreTravel.Migrations
                 {
                     table.PrimaryKey("PK_Tokens", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Tokens_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Tokens_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -34,6 +41,11 @@ namespace CoreTravel.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tokens_CustomerID",
+                table: "Tokens",
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tokens_UserId",
